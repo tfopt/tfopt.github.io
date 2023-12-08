@@ -1,0 +1,171 @@
+<html lang="en">
+
+<head>
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1,initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.jpg">
+  <title>Portfolio - V. S. Prasad</title>
+  <link rel="stylesheet" href="styles/stylesheet.css" />
+  <script src="script/script.js"></script>
+</head>
+
+<body onload="start()">
+  <header>
+    <nav>
+      <a href="https://www.github.com/tfopt">GitHub</a>
+      <a href="https://www.linkedin.com/in/vs-p">LinkedIN</a>
+      <a href="mailto:vsprasad.email@gmail.com">E-Mail</a>
+      <a href="resume.html">Resume</a>
+    </nav>
+    <h1>V. S. Prasad</h1>
+    <b>Student @ Dept. of CS, UoM</b>
+    <h4>
+      <span id="type-input"></span>
+    </h4>
+  </header>
+  <main>
+    <h2>About</h2>
+    <div>
+      <p>I am a final year student pursuing a Bachelor's degree in Computer Science (B.Sc. CS) at TCSC, affiliated to
+        UoM.
+        I consider myself a passionate programmer and I explore emerging technologies by building them from scratch.
+      </p>
+    </div>
+    <hr>
+    <h2>Projects and works</h2>
+    <div>
+      <section>
+        <article>chunkFS: A Distributed File System from scratch in Java.</article>
+        <details>
+          <ul>
+            <li>Developed a Distributed File System from scratch in Java, featuring a Command Line Interface
+              (CLI) and multithreading Name Server & Chunk Servers. Successfully deployed the system over a
+              local network comprising of Linux and Windows machines.
+            <li>Implemented a Request-Response model for method invocations, similar to RMI technology.
+            <li>Designed a Name Server that relies on a custom database facility (Name Server Registry), storing
+              and managing records in the form of Inode objects.
+            <li>Enforced user management through the “root” user, allowing all users to perform actions like
+              "put" or "get" files, "create" or "remove" directories, and enforcing permissions over their files
+              with "root" user exclusivity.
+            <li>Partitioned files into chunks (up to 5MB) for uploading and sent them serially to the chunk servers
+              via the name server upon initiation of “put” request. Recollected those chunks from the chunk
+              servers via the name server upon a “get” request and correctly reconstructed the file to save it.
+            <li>Distributed and replicated chunks by following Round-Robin strategy.
+            <li>Assigned canonical names to the chunk servers to maintain consistency in the name server's
+              registry even after the chunk server has been relocated to another IP address.
+            <li>Assigned dual roles to the chunk servers to behave as primary and/or secondary storage servers.
+            <li>Configurable aspects (IP address, port, etc.) of the Name Server, Chunk Server, and the CLI can be
+              modified through dedicated configuration files.
+          </ul>
+        </details>
+        <center><a href="dfs.html">View video demonstration</a></center>
+      </section>
+      <section>
+        <article>Raspberry Pi 3B+ bootable image: GPIO and Mini-UART drivers</article>
+        <details>
+
+          Raspberry Pi 3B+ bootable image: GPIO and Mini-UART driversRaspberry Pi 3B+ bootable image: GPIO and Mini-UART
+          drivers
+          In my quest to learn RTOS development using C, I attempted to develop a small bootable image for the Raspberry
+          Pi 3B+ based on Broadcom’s BCM2837B0 SoC and ARM’s Cortex-A53 quad-core processor. Key accomplishments
+          include:
+          <ul>
+            <li>development of a boot loader script in assembly language following the ARMv8-A instruction set for
+              lowering down the exception level of the main core from EL3 to EL1.
+            <li>booting of the image at the physical address 0x0 as opposed to the default address 0x80000 through a
+              custom linker script.
+            <li>making all the secondary cores spin in a loop, delegating all the tasks thereafter to the main core.
+            <li>assigning a 512-byte stack to the main core and making the main core jump from the assembly code to the
+              “void cpu0_main(void)” function in C.
+            <li>development of a minimal mini-UART driver for the display of messages onto the console.
+            <li>development of a minimal GPIO driver for controlling hardware components.
+            <li>development of an imitated version of “stdint.h” and “stdbool.h” headers for handling register addresses
+              and program-wide constants.
+            <li>development of “delay.h” header for software-enforced delay, synchronizing its working with processor’s
+              operating frequency
+            <li>development of a batch script for automatic build of the image in a single click.
+          </ul>
+          The bootable image was emulated on QEMU, and the registers were thoroughly observed by interfacing QEMU with
+          the GDB debugger over the localhost via port 1234.
+          <p>
+            References for developing the drivers were drawn from the Broadcom BCM2837B0 peripheral manual, and the
+            “aarch64-none-elf” toolchain (cross-compiler) was employed for building the image.
+          </p>
+        </details>
+        <center><a href="rpi.html">View video demonstration</a></center>
+      </section>
+      <section>
+        <article>
+          MiniURL: An URL shortener web application in PHP using MVC architecture.
+        </article>
+        <details>
+          I developed a PHP-based web application leveraging the MVC architecture with a custom router implementation
+          that enables users to shorten their URLs. The application was deployed over a local network (192.168.43.0/24),
+          comprised of computers with distinct roles:
+          <ul>
+            <li> 192.168.43.45/24: MySQL Database Server
+            <li>192.168.43.67/24: Apache Web Server
+            <li>192.168.43.10/24: DNS Server
+            <li>Other IPs in the network 192.168.43.0/24 (except broadcast and network): Client
+          </ul>
+          Assigned domain names “www.miniurl.com” to 192.168.43.67/24 (the Apache Web Server) and “database.miniurl.com”
+          to 192.168.43.45/24 (the MySQL Database Server) via the BIND9 DNS server on Ubuntu 20.04 LTS.
+
+          This application:
+          <ul>
+            <li> allows anonymous users to shorten their URLs, view the click-count of their links, and create accounts.
+            <li>offers extra control over the shortened URLs to registered users: modifying aliases, temporary
+              deactivation,
+              and permanent deletion of the URL(s).
+            <li> generates shortened URLs like "www.miniurl.com/u/urlid", with a 5-character long "urlid" (customizable
+              with
+              a length 1-10)
+            <li>allows registered users to change their account passwords and delete their accounts.
+            <li>utilizes PHP’s built-in $_SESSION variable for effective context management across web pages.
+            <li>ensures persistent login with PHP's $_COOKIE variable even after the browser has been closed.
+          </ul>
+        </details>
+        <center><a href="miniurl.html">View video demonstration</a></center>
+      </section>
+      <section>
+        <article>
+          ML++: A vectorized machine learning library for regression and classification
+        </article>
+        <details>
+          This serves as my final semester project and is currently in progress.
+
+          I have chosen C++ for this project as it supports "operator overloading", which is useful for software-level
+          "vectorization" and is very much coupled to the hardware, which accounts for speed. Moreover, compilers for
+          C++ exist for almost any target architecture, and the programs can be optimized for performance and
+          instructions.
+          <ul>
+            This library will:
+            <li> imitate "vectorization" through operator overloading, accounting for fast computations.
+            <li>be able to perform regression and/or classification (as applicable) over multi-variable and
+              multi-variate datasets.
+            <li>consist of a CSV parser/reader for representing datasets.
+            <li>consist of a DataFrame object for manipulating the dataset: dropping of columns, partitioning of the
+              dataset, normalization & standardization of input features, and one-hot encoding of the output.
+            <li>plot an interactive graph using "matplotlibcpp.h" for the loss V/s epoch and compute metrics (MSE or
+              RMSE) for assessing the model's performance.
+          </ul>
+        </details>
+      </section>
+    </div>
+  </main>
+  <footer id="footer_here">
+    Portfolio website for V. S. Prasad
+    <p>
+      Created using HTML, CSS and JS<br>
+      <a href="#">Back to top</a>
+    </p>
+    <p>
+      Socials:<br>
+      <code><a href="https://www.github.com/tfopt">GitHub</a></code><br>
+      <code><a href="https://www.linkedin.com/in/vs-p">LinkedIN</a></code><br>
+      <code><a href="mailto:vsprasad.email@gmail.com">E-Mail</a></code>
+    </p>
+  </footer>
+</body>
+
+</html>
